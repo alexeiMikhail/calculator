@@ -1,12 +1,32 @@
 .grid-container {
     display: grid;
+    grid-gap: 1px;
     grid-template: 
-    "display    display     display     display" 50px
-    "ac         pm          percent     divide" 50px
-    "seven      eight       nine        mult" 50px
-    "four       five        six         minus" 50px
-    "one        two         three       plus" 50px
-    "zer        zer         dott        equals" 50px ;
+    "display    display     display     display" 70px
+    "ac         pm          percent     divide" 70px
+    "seven      eight       nine        mult" 70px
+    "four       five        six         minus" 70px
+    "one        two         three       plus" 70px
+    "zer        zer         dott        equals" 70px / 70px 70px 70px 70px;
+    border-style: solid;
+    border-radius: 15px;
+    background-color: #BBB;
+    padding: 5px;
+}
+
+* {
+    font-size: 36px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    background-color: #88E;
+    border-radius: 20px;
 }
 
 #display-container {
@@ -15,11 +35,22 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    border-radius: 20px;
+    border-style: solid;
+    padding: 5px;
 }
 
 #display {
     font-size: 48px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.side {
+    background-color: #F55;
+}
+
+.top {
+    background-color: #F11;
 }
 
 #ac {
@@ -52,10 +83,12 @@
 
 #equals {
     grid-area: equals;
+    background-color: white;
 }
 
 #dot {
     grid-area: dott;
+    background-color: #AAE;
 }
 
 #one {
