@@ -2,7 +2,7 @@ let displayElement = document.getElementById("display");
 let stored = 0;
 let reset = false;
 let decimal = false;
-let last;
+let last = null;
 
 let buttons = {
     clear: {
@@ -63,9 +63,7 @@ let buttons = {
         id: "add",
         display: "+",
         press(){
-            reset = true;
             add();
-            console.log(`pressed ${this.display}`);
         },
         element: document.getElementById("add"),
     },
@@ -214,11 +212,24 @@ function storeNum() {
 }
 
 function add() {
+    reset = true;
     stored += parseInt(display.textContent);
     last = add;
+    console.log(`pressed ${this.display}`)
+}
+
+/*
+function operate() {
+    let result;
+    if (last) {
+        result = last(stored);
+    }
+    
+
 }
 
 function multiply() {
     stored *= parseInt(display.textContent);
     last = multiply;
 }
+*/
