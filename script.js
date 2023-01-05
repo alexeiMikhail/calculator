@@ -1,199 +1,299 @@
-let displayElement = document.getElementById("display");
-let stored = 0;
-let reset = false;
-let decimal = false;
-let last = null;
-
 let buttons = {
-    clear: {
-        id: "ac",
-        display: "0",
-        press(){
-            reset = false;
-            decimal = false;
-            stored = 0;
-            clear_display();
-        },
-        element: document.getElementById("ac"),
+  clear: {
+    id: 'ac',
+    display: '0',
+    type: 'clear',
+    press(){
+      handleInput(this)
     },
-    pm: {
-        id: "pm",
-        display: "+/-",
-        press(){
-            console.log("pressed +/-");
-        },
-        element: document.getElementById("pm"),
+    element: document.getElementById('ac'),
+  },
+  pm: {
+    id: 'pm',
+    display: '+/-',
+    type: 'plusminus',
+    press(){
+      handleInput(this)
     },
-    percent: {
-        id: "percent",
-        display: "%",
-        press(){
-            console.log(`pressed ${this.display}`);
-        },
-        element: document.getElementById("percent"),
+    element: document.getElementById('pm'),
+  },
+  percent: {
+    id: 'percent',
+    display: '%',
+    type: 'percent',
+    press(){
+      handleInput(this)
     },
-    divide: {
-        id: "divide",
-        display: "/",
-        press(){
-            reset = true;
-            console.log(`pressed ${this.display}`);
-        },
-        element: document.getElementById("divide"),
+    element: document.getElementById('percent'),
+  },
+  divide: {
+    id: 'divide',
+    display: '/',
+    type: 'operator',
+    press(){
+      handleInput(this)
     },
-    multiply: {
-        id: "multiply",
-        display: "*",
-        press(){
-            reset = true;
-            console.log(`pressed ${this.display}`);
-        },
-        element: document.getElementById("multiply"),
+    element: document.getElementById('divide'),
+  },
+  multiply: {
+    id: 'multiply',
+    display: '*',
+    type: 'operator',
+    press(){
+      handleInput(this)
     },
-    subtract: {
-        id: "subtract",
-        display: "-",
-        press(){
-            reset = true;
-            console.log(`pressed ${this.display}`);
-        },
-        element: document.getElementById("subtract"),
+    element: document.getElementById('multiply'),
+  },
+  subtract: {
+    id: 'subtract',
+    display: '-',
+    type: 'operator',
+    press(){
+      handleInput(this)
     },
-    add: {
-        id: "add",
-        display: "+",
-        press(){
-            add();
-        },
-        element: document.getElementById("add"),
+    element: document.getElementById('subtract'),
+  },
+  add: {
+    id: 'add',
+    display: '+',
+    type: 'operator',
+    press(){
+      handleInput(this)
     },
-    equals: {
-        id: "equals",
-        display: "=",
-        press(){
-            last();
-            clear_display();
-            update_display(stored);
-            console.log(`pressed ${this.display}`);
-        },
-        element: document.getElementById("equals"),
+    element: document.getElementById('add'),
+  },
+  equals: {
+    id: 'equals',
+    display: '=',
+    type: 'equals',
+    press(){
+      handleInput(this)
     },
-    one: {
-        id: "one",
-        display: "1",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("one"),
+    element: document.getElementById('equals'),
+  },
+  one: {
+    id: 'one',
+    display: '1',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    two: {
-        id: "two",
-        display: "2",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("two"),
+    element: document.getElementById('one'),
+  },
+  two: {
+    id: 'two',
+    display: '2',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    three: {
-        id: "three",
-        display: "3",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("three"),
+    element: document.getElementById('two'),
+  },
+  three: {
+    id: 'three',
+    display: '3',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    four: {
-        id: "four",
-        display: "4",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("four"),
+    element: document.getElementById('three'),
+  },
+  four: {
+    id: 'four',
+    display: '4',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    five: {
-        id: "five",
-        display: "5",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("five"),
+    element: document.getElementById('four'),
+  },
+  five: {
+    id: 'five',
+    display: '5',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    six: {
-        id: "six",
-        display: "6",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("six"),
+    element: document.getElementById('five'),
+  },
+  six: {
+    id: 'six',
+    display: '6',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    seven: {
-        id: "seven",
-        display: "7",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("seven"),
+    element: document.getElementById('six'),
+  },
+  seven: {
+    id: 'seven',
+    display: '7',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    eight: {
-        id: "eight",
-        display: "8",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("eight"),
+    element: document.getElementById('seven'),
+  },
+  eight: {
+    id: 'eight',
+    display: '8',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    nine: {
-        id: "nine",
-        display: "9",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("nine"),
+    element: document.getElementById('eight'),
+  },
+  nine: {
+    id: 'nine',
+    display: '9',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    zero: {
-        id: "zero",
-        display: "0",
-        press(){
-            if (reset) {clear_display()};
-            reset = false;
-            update_display(this.display);
-        },
-        element: document.getElementById("zero"),
+    element: document.getElementById('nine'),
+  },
+  zero: {
+    id: 'zero',
+    display: '0',
+    type: 'digit',
+    press(){
+      handleInput(this)
     },
-    dot: {
-        id: "dot",
-        display: ".",
-        press(){
-            update_display(this.display);
-        },
-        element: document.getElementById("dot"),
+    element: document.getElementById('zero'),
+  },
+  dot: {
+    id: 'dot',
+    display: '.',
+    type: 'decimal',
+    press(){
+      handleInput(this)
     },
+    element: document.getElementById('dot'),
+  },
 }
 
 for (const property in buttons) {
-    //console.log(`${property}: ${buttons[property].element}`);
-    buttons[property].element.addEventListener("click", () => {
-        buttons[property].press();
-    })
+  //console.log(`${property}: ${buttons[property].element}`);
+  buttons[property].element.addEventListener('click', () => {
+    buttons[property].press()
+  })
 }
+
+//let displayElement = document.getElementById('display')
+//let stored = 0
+//let reset = false
+//let decimal = false
+//let last = null
+
+const calculator = {
+  displayValue: '0',
+  firstOperand: null,
+  operator: null,
+  secondOperand: null
+}
+
+const calculate = () => {
+  console.log('made it to calculate function')
+  const { operator, firstOperand, secondOperand } = calculator
+  console.log(operator)
+
+  if (operator === '+') {
+    return firstOperand + secondOperand
+  }
+  if (operator === '-') {
+    return firstOperand - secondOperand
+  }
+  if (operator === '*') {
+    return firstOperand * secondOperand
+  }
+  if (operator === '/') {
+    return firstOperand / secondOperand
+  }
+}
+
+const handleDigit = (digit) => {
+  if (!calculator.operator) {
+    calculator.displayValue = calculator.displayValue === '0' ? digit : calculator.displayValue + digit
+    calculator.firstOperand = parseFloat(calculator.displayValue)
+    console.log(calculator)
+    updateDisplay()
+    return
+  }
+  if (!calculator.secondOperand) {
+    calculator.displayValue = digit
+    calculator.secondOperand = parseFloat(calculator.displayValue)
+    updateDisplay()
+    return
+  }
+  calculator.displayValue = calculator.displayValue === '0' ? digit : calculator.displayValue + digit
+  calculator.secondOperand = parseFloat(calculator.displayValue)
+  console.log(calculator)
+  updateDisplay()
+}
+
+const handleOperator = (op) => {
+  if(!calculator.firstOperand) {
+    calculator.operator = op
+    return
+  }
+  if (!calculator.secondOperand) {
+    calculator.operator = op
+    return
+  }
+  calculator.firstOperand = calculate()
+  calculator.operator = op
+  calculator.displayValue = calculator.firstOperand.toString()
+  updateDisplay()
+  calculator.secondOperand = null
+  console.log(op)
+}
+
+const handleEquals = () => {
+  calculator.firstOperand = calculate()
+  calculator.displayValue = calculator.firstOperand.toString()
+  updateDisplay()
+}
+
+const handleClear = () => {
+  calculator.displayValue = '0'
+  calculator.firstOperand = null
+  calculator.secondOperand = null
+  calculator.operator = null
+  updateDisplay()
+  console.log(calculator)
+}
+
+const handleInput = (input) => {
+  if (input.type === 'digit') {
+    handleDigit(input.display)
+    console.log(calculator)
+    return
+  }
+  if (input.type === 'operator') {
+    handleOperator(input.display)
+    console.log(calculator)
+    return
+  }
+  if (input.type === 'clear') {
+    handleClear()
+    console.log(calculator)
+    return
+  }
+  if (input.type === 'equals') {
+    handleEquals()
+    console.log(calculator)
+    return
+  }
+  console.log(input.type)
+  console.log(calculator)
+}
+
+const updateDisplay = () => {
+  const displayElement = document.getElementById('display')
+  displayElement.textContent = calculator.displayValue
+}
+
+/*
 
 function update_display(s) {
     if (display.textContent == "0") {
@@ -202,7 +302,6 @@ function update_display(s) {
     }
     display.textContent += s;
 }
-
 function clear_display() {
     display.textContent = "0";
 }
@@ -218,7 +317,7 @@ function add() {
     console.log(`pressed ${this.display}`)
 }
 
-/*
+
 function operate() {
     let result;
     if (last) {
