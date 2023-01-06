@@ -266,8 +266,17 @@ const handleClear = () => {
 }
 
 const handlePM = () => {
-  if (calculator.displayValue[0] === '-') {
-    calculator.displayValue
+  if (calculator.secondOperand) {
+    calculator.secondOperand *= -1
+    calculator.displayValue = calculator.secondOperand.toString()
+    updateDisplay()
+    return
+  }
+  if (calculator.firstOperand) {
+    calculator.firstOperand *= -1
+    calculator.displayValue = calculator.firstOperand.toString()
+    updateDisplay()
+    return
   }
 }
 
