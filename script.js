@@ -189,11 +189,11 @@ const calculator = {
   displayValue: '0',
   firstOperand: null,
   operator: null,
-  secondOperand: null
+  secondOperand: null,
+  lastType: null
 }
 
 const calculate = () => {
-  console.log('made it to calculate function')
   const { operator, firstOperand, secondOperand } = calculator
   console.log(operator)
 
@@ -232,6 +232,9 @@ const handleDigit = (digit) => {
 }
 
 const handleOperator = (op) => {
+  if (calculator.lastType === 'equals') {
+    calculator.secondOperand = null
+  }
   if(!calculator.firstOperand) {
     calculator.operator = op
     return
@@ -245,7 +248,6 @@ const handleOperator = (op) => {
   calculator.displayValue = calculator.firstOperand.toString()
   updateDisplay()
   calculator.secondOperand = null
-  console.log(op)
 }
 
 const handleEquals = () => {
@@ -263,24 +265,39 @@ const handleClear = () => {
   console.log(calculator)
 }
 
+const handlePM = () => {
+  if (calculator.displayValue[0] === '-') {
+    calculator.displayValue
+  }
+}
+
 const handleInput = (input) => {
   if (input.type === 'digit') {
     handleDigit(input.display)
+    calculator.lastType = 'digit'
     console.log(calculator)
     return
   }
   if (input.type === 'operator') {
     handleOperator(input.display)
+    calculator.lastType = 'operator'
     console.log(calculator)
     return
   }
   if (input.type === 'clear') {
     handleClear()
+    calculator.lastType = 'clear'
     console.log(calculator)
     return
   }
   if (input.type === 'equals') {
     handleEquals()
+    calculator.lastType = 'equals'
+    console.log(calculator)
+    return
+  }
+  if (input.type === 'plusminus') {
+    handlePM()
     console.log(calculator)
     return
   }
